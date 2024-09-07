@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Монетки</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, white, lightblue); /* Градиентный фон (бело-синий) */
+        }
+        #coin {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        img {
+            width: 100px; /* Задайте нужный размер изображения монетки */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="coin">Монеток: 0</div>
+<img id="coinImage" src="coin.png" alt="Монета" />
+
+<script>
+    // Инициализируем количество монеток
+    let coinCount = 0;
+
+    // Получаем элементы из DOM
+    const coinDisplay = document.getElementById('coin');
+    const coinImage = document.getElementById('coinImage');
+
+    // Функция для увеличения количества монеток
+    coinImage.addEventListener('click', () => {
+        coinCount++; // Увеличиваем количество монеток
+        coinDisplay.textContent = `Монеток: ${coinCount}`; // Обновляем текст
+    });
+</script>
+
+</body>
+</html>
