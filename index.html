@@ -13,19 +13,14 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, white, lightblue); /* Градиентный фон (бело-синий) */
+            background: linear-gradient(to bottom, white, lightblue);
         }
         #coin {
             font-size: 24px;
             margin-bottom: 20px;
         }
-        #button {
-            padding: 10px 20px;
-            font-size: 20px;
-            cursor: pointer;
-        }
         img {
-            width: 100px; /* Задайте нужный размер изображения монетки */
+            width: 100px;
             cursor: pointer;
         }
     </style>
@@ -33,9 +28,20 @@
 <body>
 
 <div id="coin">Монеток: 0</div>
-<img id="coinImage" src="coin.png"/>
+<img id="coinImage" src="assets/coin.png" />
 
 <script>
+    // Функция для сохранения количества монет в localStorage
+    function saveCoins() {
+        localStorage.setItem('coinCount', coinCount);
+    }
+
+    // Функция для загрузки количества монет из localStorage
+    function loadCoins() {
+        coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
+        coinDisplay.textContent = `Монеток: ${coinCount}`;
+    }
+
     // Инициализируем количество монеток
     let coinCount = 0;
 
@@ -43,10 +49,14 @@
     const coinDisplay = document.getElementById('coin');
     const coinImage = document.getElementById('coinImage');
 
+    // Загружаем количество монет из localStorage
+    loadCoins();
+
     // Функция для увеличения количества монеток
     coinImage.addEventListener('click', () => {
         coinCount++; // Увеличиваем количество монеток
         coinDisplay.textContent = `Монеток: ${coinCount}`; // Обновляем текст
+        saveCoins(); // Сохраняем количество монет в localStorage
     });
 </script>
 
