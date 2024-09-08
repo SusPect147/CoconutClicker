@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no">
+
 <title>Монетки</title>
 <style>
+.unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
 body {
 display: flex;
 flex-direction: column;
@@ -43,9 +53,9 @@ background-color: #555;
 </head>
 <body>
 
-<div id="coin">Монеток: 0</div>
+<div id="coin" class="unselectable" >Монеток: 0</div>
 <img id="coinImage" src="coin.png" />
-<button id="themeButton">Сменить тему</button>
+<button id="themeButton" class="unselectable">Сменить тему</button>
 
 <script>
 // Функция для сохранения количества монет в localStorage
@@ -93,4 +103,3 @@ themeButton.addEventListener('click', () => {
 
 </body>
 </html>
-
