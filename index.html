@@ -15,29 +15,23 @@ margin: 0;
 font-family: Arial, sans-serif;
 background: linear-gradient(to bottom, white, lightblue);
 transition: background 0.5s ease;
-/* Запрет выделения текста */
--webkit-user-select: none; /* Safari */
--ms-user-select: none; /* IE 10 and IE 11 */
-user-select: none; /* Standard syntax */
-/* Запрет изменения масштаба */
--webkit-text-size-adjust: 100%; /* Safari */
--ms-text-size-adjust: 100%; /* IE */
-text-size-adjust: 100%; /* Standard */
+/* Запрет выделения текста /
+-webkit-user-select: none; / Safari /
+-ms-user-select: none; / IE 10 and IE 11 /
+user-select: none; / Standard syntax /
+/ Запрет изменения масштаба /
+-webkit-text-size-adjust: 100%; / Safari /
+-ms-text-size-adjust: 100%; / IE /
+text-size-adjust: 100%; / Standard */
 }
 #coin {
 font-size: 24px;
 margin-bottom: 20px;
 transition: color 0.5s ease;
--webkit-user-select: none; /* Safari */
--ms-user-select: none; /* IE 10 and IE 11 */
-user-select: none; /* Standard syntax */
 }
 img {
 width: 100px;
 cursor: pointer;
--webkit-user-select: none; /* Safari */
--ms-user-select: none; /* IE 10 and IE 11 */
-user-select: none; /* Standard syntax */
 }
 button {
 margin-top: -200px;
@@ -49,31 +43,70 @@ border: none;
 border-radius: 40px;
 cursor: pointer;
 transition: background-color 0.5s ease;
--webkit-user-select: none; /* Safari */
--ms-user-select: none; /* IE 10 and IE 11 */
-user-select: none; /* Standard syntax */
 }
 button:hover {
 background-color: #555;
 }
+#leaderboard {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 999;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.5s, visibility 0.5s;
+}
+
+#leaderboardContent {
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+max-width: 80%;
+max-height: 80%;
+overflow-y: auto;
+}
 </style>
 </head>
 <body>
-
+<button id="leaderboardButton">Таблица лидеров</button>
 <div id="coin">Монеток: 0</div>
 <img id="coinImage" src="coin.png" />
 <button id="themeButton">Сменить тему</button>
+
+<div id="leaderboard">
+<div id="leaderboardContent">
+<h2>Таблица лидеров</h2>
+<table id="leaderboardTable">
+<thead>
+<tr>
+<th>Место</th>
+<th>Имя</th>
+<th>Монетки</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
 
 <script>
 // Функция для сохранения количества монет в localStorage
 function saveCoins() {
 localStorage.setItem('coinCount', coinCount);
+updateLeaderboard();
 }
 
 // Функция для загрузки количества монет из localStorage
 function loadCoins() {
-    coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
-    coinDisplay.textContent = `Монеток: ${coinCount}`;
+coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
+coinDisplay.textContent = Монеток: ${coinCount};
+updateLeaderboard();
 }
 
 // Инициализируем количество монеток
@@ -83,28 +116,72 @@ let coinCount = 0;
 const coinDisplay = document.getElementById('coin');
 const coinImage = document.getElementById('coinImage');
 const themeButton = document.getElementById('themeButton');
+const leaderboardButton = document.getElementById('leaderboardButton');
+const leaderboardContainer = document.getElementById('leaderboard');
+const leaderboardTable = document.getElementById('leaderboardTable');
 
 // Загружаем количество монет из localStorage
 loadCoins();
 
 // Функция для увеличения количества монеток
 coinImage.addEventListener('click', () => {
-    coinCount++; // Увеличиваем количество монеток
-    coinDisplay.textContent = `Монеток: ${coinCount}`; // Обновляем текст
-    saveCoins(); // Сохраняем количество монет в localStorage
+coinCount++; // Увеличиваем количество монеток
+coinDisplay.textContent = Монеток: ${coinCount}; // Обновляем текст
+saveCoins(); // Сохраняем количество монет в localStorage
 });
 
 // Функция для смены темы
 let isDarkTheme = false;
 themeButton.addEventListener('click', () => {
-    if (isDarkTheme) {
-        document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
-        coinDisplay.style.color = '#000';
-    } else {
-        document.body.style.background = 'linear-gradient(to bottom, #333, #555)';
-        coinDisplay.style.color = '#fff';
-    }
-    isDarkTheme = !isDarkTheme;
+if (isDarkTheme) {
+document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
+coinDisplay.style.color = '#000';
+} else {
+document.body.style.background = 'linear-gradient(to bottom, #333, #555)';
+coinDisplay.style.color = '#fff';
+}
+isDarkTheme = !isDarkTheme;
+});
+
+// Функция для обновления таблицы лидеров
+function updateLeaderboard() {
+// Получаем все сохраненные в localStorage данные о количестве монет
+const leaderboardData = Object.entries(localStorage)
+.filter(([key]) => key.startsWith('coinCount'))
+.map(([key, value]) => ({
+name: key.replace('coinCount-', ''),
+coins: parseInt(value)
+}))
+.sort((a, b) => b.coins - a.coins)
+.slice(0, 100);
+
+// Очищаем таблицу лидеров
+leaderboardTable.querySelector('tbody').innerHTML = '';
+
+// Заполняем таблицу лидеров
+leaderboardData.forEach((player, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${player.name}</td>
+        <td>${player.coins}</td>
+    `;
+    leaderboardTable.querySelector('tbody').appendChild(row);
+});
+}
+
+// Обработчик клика на кнопку "Таблица лидеров"
+leaderboardButton.addEventListener('click', () => {
+leaderboardContainer.style.opacity = 1;
+leaderboardContainer.style.visibility = 'visible';
+});
+
+// Обработчик клика вне области таблицы лидеров
+leaderboardContainer.addEventListener('click', (event) => {
+if (event.target === leaderboardContainer) {
+leaderboardContainer.style.opacity = 0;
+leaderboardContainer.style.visibility = 'hidden';
+}
 });
 </script>
 
