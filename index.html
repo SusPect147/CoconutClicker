@@ -15,7 +15,43 @@ margin: 0;
 font-family: Arial, sans-serif;
 background: linear-gradient(to bottom, white, lightblue);
 transition: background 0.5s ease;
-
+/* Запрет выделения текста */
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+/* Запрет изменения масштаба */
+-webkit-text-size-adjust: 100%; /* Safari */
+-ms-text-size-adjust: 100%; /* IE */
+text-size-adjust: 100%; /* Standard */
+}
+#coin {
+font-size: 24px;
+margin-bottom: 20px;
+transition: color 0.5s ease;
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+}
+img {
+width: 100px;
+cursor: pointer;
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+}
+button {
+margin-top: -200px;
+padding: 10px 20px;
+font-size: 16px;
+background-color: #333;
+color: #fff;
+border: none;
+border-radius: 40px;
+cursor: pointer;
+transition: background-color 0.5s ease;
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
 }
 button:hover {
 background-color: #555;
@@ -36,13 +72,12 @@ localStorage.setItem('coinCount', coinCount);
 
 // Функция для загрузки количества монет из localStorage
 function loadCoins() {
-coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
-coinDisplay.textContent = Монеток: ${coinCount};
+    coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
+    coinDisplay.textContent = `Монеток: ${coinCount}`;
 }
 
 // Инициализируем количество монеток
 let coinCount = 0;
-let isClickEnabled = true;
 
 // Получаем элементы из DOM
 const coinDisplay = document.getElementById('coin');
@@ -54,28 +89,22 @@ loadCoins();
 
 // Функция для увеличения количества монеток
 coinImage.addEventListener('click', () => {
-if (isClickEnabled) {
-coinCount++; // Увеличиваем количество монеток
-coinDisplay.textContent = Монеток: ${coinCount}; // Обновляем текст
-saveCoins(); // Сохраняем количество монет в localStorage
-isClickEnabled = false; // Отключаем возможность клика
-setTimeout(() => {
-isClickEnabled = true; // Включаем возможность клика через 0.2 секунды
-}, 50);
-}
+    coinCount++; // Увеличиваем количество монеток
+    coinDisplay.textContent = `Монеток: ${coinCount}`; // Обновляем текст
+    saveCoins(); // Сохраняем количество монет в localStorage
 });
 
 // Функция для смены темы
 let isDarkTheme = false;
 themeButton.addEventListener('click', () => {
-if (isDarkTheme) {
-document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
-coinDisplay.style.color = '#000';
-} else {
-document.body.style.background = 'linear-gradient(to bottom, #333, #555)';
-coinDisplay.style.color = '#fff';
-}
-isDarkTheme = !isDarkTheme;
+    if (isDarkTheme) {
+        document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
+        coinDisplay.style.color = '#000';
+    } else {
+        document.body.style.background = 'linear-gradient(to bottom, #333, #555)';
+        coinDisplay.style.color = '#fff';
+    }
+    isDarkTheme = !isDarkTheme;
 });
 </script>
 
