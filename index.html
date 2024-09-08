@@ -15,6 +15,14 @@ margin: 0;
 font-family: Arial, sans-serif;
 background: linear-gradient(to bottom, white, lightblue);
 transition: background 0.5s ease;
+/* Запрет выделения текста */
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+/* Запрет изменения масштаба */
+-webkit-text-size-adjust: 100%; /* Safari */
+-ms-text-size-adjust: 100%; /* IE */
+text-size-adjust: 100%; /* Standard */
 }
 #coin {
 font-size: 24px;
