@@ -1,100 +1,133 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Монетки</title>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, white, lightblue);
-      transition: background 0.5s ease;
-      user-select: none;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Монетки</title>
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+margin: 0;
+font-family: Arial, sans-serif;
+background: linear-gradient(to bottom, white, lightblue);
+transition: background 0.5s ease;
+user-select: none;
+}
 
-    #coin {
-      font-size: 24px;
-      margin-bottom: 20px;
-      transition: color 0.5s ease;
-      margin-top: -300px;
-    }
+#coin {
+  font-size: 24px;
+  margin-bottom: 20px;
+  transition: color 0.5s ease;
+  margin-top: 50px;
+}
 
-    img {
-      width: 200px;
-      cursor: pointer;
+img {
+  width: 200px;
+  cursor: pointer;
+}
 
-    }
+button {
+  margin-top: -450px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+button1 {
+  margin-top: 500px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
 
-    button {
-      margin-top: -450px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: background-color 0.5s ease;
-    }
-
-    button:hover {
-      background-color: #555;
-    }
-  </style>
+button:hover {
+  background-color: #555;
+}
+</style>
 </head>
 <body>
-  <div id="coin">Монеток: 0</div>
-  <img id="coinImage" src="image.png" />
-  <button id="themeButton">Сменить тему</button>
+<div id="coin">Монеток: 0</div>
+<img id="coinImage" src="image.png" />
+<button id="themeButton">Сменить тему</button>
+<button1 id="upgradeButton">Прокачать клик (+0.1 монета)</button1>
+<div id="upgradeInfo">Стоимость прокачки: 100 монет</div>
 
-  <script>
-    // Функция для сохранения количества монет в localStorage
-    function saveCoins() {
-      localStorage.setItem('coinCount', coinCount);
-    }
+<script>
+// Функция для сохранения количества монет в localStorage
+function saveCoins() {
+localStorage.setItem('coinCount', coinCount);
+localStorage.setItem('clickValue', clickValue);
+localStorage.setItem('upgradePrice', upgradePrice);
+}
 
-    // Функция для загрузки количества монет из localStorage
-    function loadCoins() {
-      coinCount = parseInt(localStorage.getItem('coinCount')) || 0;
-      coinDisplay.textContent = `Монеток: ${coinCount}`;
-    }
+// Функция для загрузки количества монет из localStorage
+function loadCoins() {
+  coinCount = parseFloat(localStorage.getItem('coinCount')) || 0;
+  clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
+  upgradePrice = parseInt(localStorage.getItem('upgradePrice')) || 100;
+  coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+  upgradeInfoDisplay.textContent = `Стоимость прокачки: ${upgradePrice} монет`;
+}
 
-    // Инициализируем количество монеток
-    let coinCount = 0;
+// Инициализируем количество монеток и стоимость прокачки
+let coinCount = 0;
+let clickValue = 1;
+let upgradePrice = 100;
 
-    // Получаем элементы из DOM
-    const coinDisplay = document.getElementById('coin');
-    const coinImage = document.getElementById('coinImage');
-    const themeButton = document.getElementById('themeButton');
+// Получаем элементы из DOM
+const coinDisplay = document.getElementById('coin');
+const coinImage = document.getElementById('coinImage');
+const themeButton = document.getElementById('themeButton');
+const upgradeButton = document.getElementById('upgradeButton');
+const upgradeInfoDisplay = document.getElementById('upgradeInfo');
 
-    // Загружаем количество монет из localStorage
-    loadCoins();
+// Загружаем количество монет из localStorage
+loadCoins();
 
-    // Функция для увеличения количества монеток
-    coinImage.addEventListener('click', () => {
-      coinCount++;
-      coinDisplay.textContent = `Монеток: ${coinCount}`;
-      saveCoins();
-    });
+// Функция для увеличения количества монеток
+coinImage.addEventListener('click', () => {
+  coinCount += clickValue;
+  coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+  saveCoins();
+});
 
-    // Функция для смены темы
-    let isDarkTheme = false;
-    themeButton.addEventListener('click', () => {
-      if (isDarkTheme) {
-        document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
-        coinDisplay.style.color = '#000';
-      } else {
-        document.body.style.background = 'linear-gradient(to bottom, #000, #999)';
-        coinDisplay.style.color = '#fff';
-      }
-      isDarkTheme = !isDarkTheme;
-    });
-  </script>
+// Функция для прокачки клика
+upgradeButton.addEventListener('click', () => {
+  if (coinCount >= upgradePrice) {
+    coinCount -= upgradePrice;
+    clickValue += 0.1;
+    upgradePrice *= 2;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    upgradeInfoDisplay.textContent = `Стоимость прокачки: ${upgradePrice} монет`;
+    saveCoins();
+  }
+});
+
+// Функция для смены темы
+let isDarkTheme = false;
+themeButton.addEventListener('click', () => {
+  if (isDarkTheme) {
+    document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
+    coinDisplay.style.color = '#000';
+  } else {
+    document.body.style.background = 'linear-gradient(to bottom, #000, #999)';
+    coinDisplay.style.color = '#fff';
+  }
+  isDarkTheme = !isDarkTheme;
+});
+</script>
 </body>
 </html>
