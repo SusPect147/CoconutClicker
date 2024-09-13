@@ -22,7 +22,7 @@ user-select: none;
   font-size: 24px;
   margin-bottom: 20px;
   transition: color 0.5s ease;
-  margin-top: 246px;
+  margin-top: 220px;
 }
 
 #upgradeInfo {
@@ -35,6 +35,13 @@ img {
   cursor: pointer;
 }
 
+img {
+  outline: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+
 button {
   margin-top: -450px;
   padding: 10px 20px;
@@ -46,7 +53,7 @@ button {
   cursor: pointer;
   transition: background-color 0.5s ease;
 }
-button1 {
+clickc {
   margin-top: 510px;
   padding: 10px 20px;
   font-size: 16px;
@@ -58,9 +65,9 @@ button1 {
   transition: background-color 0.5s ease;
 }
 
-button2 {
-  margin-top: -470px;
-  margin-left: 490px;
+thema {
+  margin-top: -440px;
+  margin-left: 350px;
   padding: 10px 20px;
   font-size: 16px;
   background-color: #333;
@@ -78,9 +85,9 @@ button:hover {
 </head>
 <body>
 <div id="coin">Монеток: 0</div>
-<img id="coinImage" src="image.png" />
-<button2 id="themeButton">☀️</button2>
-<button1 id="upgradeButton">Прокачать клик (+0.1 монета)</button1>
+<img id="coinImage" src="assets/image.png" />
+<thema id="themeButton">☀️</thema>
+<clickc id="upgradeButton">Прокачать клик (+0.1 монета)</clickc>
 <div id="upgradeInfo">Стоимость прокачки: 100 монет</div>
 
 <script>
