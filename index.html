@@ -115,7 +115,10 @@ function loadCoins() {
 let coinCount = 0;
 let clickValue = 1;
 let upgradePrice = 100;
-let codeUsed = false;
+let codeUsed1 = false;
+let codeUsed2 = false;
+let codeUsed3 = false;
+
 const coinDisplay = document.getElementById('coin');
 const coinImage = document.getElementById('coinImage');
 const themeButton = document.getElementById('themeButton');
@@ -186,21 +189,21 @@ codeMenu.addEventListener('click', (event) => {
 });
 codeSubmit.addEventListener('click', () => {
   const code = codeInput.value.trim();
-  if (code === 'ImWinner_NECHTO' && !codeUsed) {
+  if (code === 'ImWinner_NECHTO' && !codeUsed1) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
     saveCoins();
     codeMenu.style.display = 'none';
   }
-  if (code === '1JFI493AOa' && !codeUsed) {
+  if (code === '1JFI493AOa' && !codeUsed2) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
     saveCoins();
     codeMenu.style.display = 'none';
   }
-  if (code === 'WORK_CODES' && !codeUsed) {
+  if (code === 'WORK_CODES' && !codeUsed3) {
     coinCount += 10000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
