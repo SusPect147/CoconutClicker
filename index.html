@@ -205,7 +205,8 @@ codeSubmit.addEventListener('click', () => {
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     saveCoins();
     codeMenu.style.display = 'none';
-   else {
+  }
+  else {
     alert('Неверный промокод или он уже был использован!');
     codeMenu.style.display = 'none';
   }
