@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Монетки</title>
 <style>
 body {
@@ -17,32 +17,23 @@ background: linear-gradient(to bottom, white, lightblue);
 transition: background 0.5s ease;
 user-select: none;
 }
-
 #coin {
   font-size: 24px;
   margin-bottom: 20px;
   transition: color 0.5s ease;
-  margin-top: 220px;
+  margin-top: 140px;
 }
-
 #upgradeInfo {
   transition: color 0.5s ease;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
-
 img {
   width: 200px;
   cursor: pointer;
-}
-
-img {
   outline: none;
-  cursor: pointer;
   pointer-events: auto;
 }
-
-
-button {
+button, .clickc, .thema {
   margin-top: -450px;
   padding: 10px 20px;
   font-size: 16px;
@@ -52,84 +43,96 @@ button {
   border-radius: 40px;
   cursor: pointer;
   transition: background-color 0.5s ease;
+  margin-right: 20px;
 }
-clickc {
-  margin-top: 510px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
+.clickc {
+  margin-top: 410px;
+  margin-right: 0;
 }
-
-thema {
-  margin-top: -440px;
+.thema {
+  margin-top: -390px;
   margin-left: 320px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 40px;
-  cursor: pointer;
-  transition: background-color 0.5s ease;
 }
-
 button:hover {
   background-color: #555;
+}
+#codeMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: none;
+}
+#codeInput {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+#codeButton, #codeSubmit {
+  padding: 5px 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 </style>
 </head>
 <body>
 <div id="coin">Монеток: 0</div>
 <img id="coinImage" src="image.png" />
-<thema id="themeButton">☀️</thema>
-<clickc id="upgradeButton">Прокачать клик (+0.1 монета)</clickc>
+<button class="thema" id="themeButton">🌙</button>
+<button class="clickc" id="upgradeButton">Прокачать клик (+0.1 монета)</button>
 <div id="upgradeInfo">Стоимость прокачки: 100 монет</div>
-
+<codes id="codeButton">Коды</codes>
+<div id="codeMenu">
+<input type="text" id="codeInput" placeholder="Введите промокод">
+<button id="codeSubmit">Применить</button>
+</div>
 <script>
-// Функция для сохранения количества монет в localStorage
 function saveCoins() {
-localStorage.setItem('coinCount', coinCount);
-localStorage.setItem('clickValue', clickValue);
-localStorage.setItem('upgradePrice', upgradePrice);
+  localStorage.setItem('coinCount', coinCount);
+  localStorage.setItem('clickValue', clickValue);
+  localStorage.setItem('upgradePrice', upgradePrice);
+  localStorage.setItem('codeUsed', codeUsed);
 }
 
-// Функция для загрузки количества монет из localStorage
 function loadCoins() {
   coinCount = parseFloat(localStorage.getItem('coinCount')) || 0;
   clickValue = parseFloat(localStorage.getItem('clickValue')) || 1;
   upgradePrice = parseInt(localStorage.getItem('upgradePrice')) || 100;
+  codeUsed = localStorage.getItem('codeUsed') === 'true' || false;
   coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
   upgradeInfoDisplay.textContent = `Стоимость прокачки: ${upgradePrice} монет`;
 }
 
-// Инициализируем количество монеток и стоимость прокачки
 let coinCount = 0;
 let clickValue = 1;
 let upgradePrice = 100;
-
-// Получаем элементы из DOM
+let codeUsed = false;
 const coinDisplay = document.getElementById('coin');
 const coinImage = document.getElementById('coinImage');
 const themeButton = document.getElementById('themeButton');
 const upgradeButton = document.getElementById('upgradeButton');
 const upgradeInfoDisplay = document.getElementById('upgradeInfo');
+const codeButton = document.getElementById('codeButton');
+const codeMenu = document.getElementById('codeMenu');
+const codeInput = document.getElementById('codeInput');
+const codeSubmit = document.getElementById('codeSubmit');
 
-// Загружаем количество монет из localStorage
 loadCoins();
 
-// Функция для увеличения количества монеток
 coinImage.addEventListener('click', () => {
   coinCount += clickValue;
   coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
   saveCoins();
 });
-
-// Функция для прокачки клика
 upgradeButton.addEventListener('click', () => {
   if (coinCount >= upgradePrice) {
     coinCount -= upgradePrice;
@@ -140,20 +143,72 @@ upgradeButton.addEventListener('click', () => {
     saveCoins();
   }
 });
-
-// Функция для смены темы
 let isDarkTheme = false;
+
 themeButton.addEventListener('click', () => {
   if (isDarkTheme) {
     document.body.style.background = 'linear-gradient(to bottom, white, lightblue)';
     coinDisplay.style.color = '#000';
     upgradeInfo.style.color = '#000';
+    themeButton.style.backgroundColor = '#333';
+    themeButton.style.color = '#fff';
+    upgradeButton.style.backgroundColor = '#333';
+    upgradeButton.style.color = '#fff';
+    codeButton.style.backgroundColor = '#333';
+    codeButton.style.color = '#fff';
+    codeSubmit.style.backgroundColor = '#333';
+    codeSubmit.style.color = '#fff';
+    themeButton.textContent = '🌙';
   } else {
     document.body.style.background = 'linear-gradient(to bottom, #000, #444)';
     coinDisplay.style.color = '#fff';
     upgradeInfo.style.color = '#fff';
+    themeButton.style.backgroundColor = '#fff';
+    themeButton.style.color = '#000';
+    upgradeButton.style.backgroundColor = '#fff';
+    upgradeButton.style.color = '#000';
+    codeButton.style.backgroundColor = '#fff';
+    codeButton.style.color = '#000';
+    codeSubmit.style.backgroundColor = '#fff';
+    codeSubmit.style.color = '#000';
+    themeButton.textContent = '🌟';
   }
   isDarkTheme = !isDarkTheme;
+});
+codeButton.addEventListener('click', () => {
+  codeMenu.style.display = 'block';
+});
+
+codeMenu.addEventListener('click', (event) => {
+  if (event.target === codeMenu) {
+    codeMenu.style.display = 'none';
+  }
+});
+codeSubmit.addEventListener('click', () => {
+  const code = codeInput.value.trim();
+  if (code === 'ImWinner_NECHTO' && !codeUsed) {
+    coinCount += 100000;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    codeUsed = true;
+    saveCoins();
+    codeMenu.style.display = 'none';
+  }
+  if (code === '1JFI493AOa' && !codeUsed) {
+    coinCount += 100000;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    codeUsed = true;
+    saveCoins();
+    codeMenu.style.display = 'none';
+  }
+  if (code === 'Hammer147_secret_code') {
+    coinCount += 1000000000;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    saveCoins();
+    codeMenu.style.display = 'none';
+   else {
+    alert('Неверный промокод или он уже был использован!');
+    codeMenu.style.display = 'none';
+  }
 });
 </script>
 </body>
