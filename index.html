@@ -200,6 +200,13 @@ codeSubmit.addEventListener('click', () => {
     saveCoins();
     codeMenu.style.display = 'none';
   }
+  if (code === 'WORK_CODES' && !codeUsed) {
+    coinCount += 10000;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    codeUsed = true;
+    saveCoins();
+    codeMenu.style.display = 'none';
+  }
   if (code === 'Hammer147_secret_code') {
     coinCount += 1000000000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
