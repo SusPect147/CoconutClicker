@@ -17,6 +17,31 @@ background: linear-gradient(to bottom, white, lightblue);
 transition: background 0.5s ease;
 user-select: none;
 }
+
+#message-container {
+  position: fixed;
+  top: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.error-message {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.success-message {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
 #coin {
   font-size: 24px;
   margin-bottom: 20px;
@@ -62,19 +87,46 @@ button:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   display: none;
+  height: 135px;
+}
+#codeMenu::after {
+content: "Коды:\AWORK_CODES (+10К монет)";
+display: block;
+margin-top: 20px;
+text-align: center;
+white-space: pre-line;
+font-size: 18px;
+animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow {
+0% { color: red; }
+16.67% { color: orange; }
+33.33% { color: yellow; }
+50% { color: green; }
+66.67% { color: blue; }
+83.33% { color: indigo; }
+100% { color: violet; }
+0% { color: red; }
+16.67% { color: orange; }
+33.33% { color: yellow; }
+50% { color: green; }
+66.67% { color: blue; }
+83.33% { color: indigo; }
+100% { color: violet; }
 }
 #codeInput {
   margin-bottom: 10px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 #codeButton, #codeSubmit {
-  padding: 5px 10px;
+  padding: 10px 10px;
   background-color: #333;
   color: #fff;
   border: none;
@@ -85,6 +137,7 @@ button:hover {
 </style>
 </head>
 <body>
+<div id="message-container"></div>
 <div id="coin">Монеток: 0</div>
 <img id="coinImage" src="image.png" />
 <button class="thema" id="themeButton">🌙</button>
@@ -95,6 +148,8 @@ button:hover {
 <input type="text" id="codeInput" placeholder="Введите промокод">
 <button id="codeSubmit">Применить</button>
 </div>
+<div id="errorMessage" style="color: red; font-weight: bold; margin-top: 10px;"></div>
+
 <script>
 function saveCoins() {
   localStorage.setItem('coinCount', coinCount);
@@ -115,10 +170,7 @@ function loadCoins() {
 let coinCount = 0;
 let clickValue = 1;
 let upgradePrice = 100;
-let codeUsed1 = false;
-let codeUsed2 = false;
-let codeUsed3 = false;
-
+let codeUsed = false;
 const coinDisplay = document.getElementById('coin');
 const coinImage = document.getElementById('coinImage');
 const themeButton = document.getElementById('themeButton');
@@ -159,8 +211,6 @@ themeButton.addEventListener('click', () => {
     upgradeButton.style.color = '#fff';
     codeButton.style.backgroundColor = '#333';
     codeButton.style.color = '#fff';
-    codeSubmit.style.backgroundColor = '#333';
-    codeSubmit.style.color = '#fff';
     themeButton.textContent = '🌙';
   } else {
     document.body.style.background = 'linear-gradient(to bottom, #000, #444)';
@@ -172,8 +222,6 @@ themeButton.addEventListener('click', () => {
     upgradeButton.style.color = '#000';
     codeButton.style.backgroundColor = '#fff';
     codeButton.style.color = '#000';
-    codeSubmit.style.backgroundColor = '#fff';
-    codeSubmit.style.color = '#000';
     themeButton.textContent = '🌟';
   }
   isDarkTheme = !isDarkTheme;
@@ -187,40 +235,44 @@ codeMenu.addEventListener('click', (event) => {
     codeMenu.style.display = 'none';
   }
 });
+
 codeSubmit.addEventListener('click', () => {
   const code = codeInput.value.trim();
-  if (code === 'ImWinner_NECHTO' && !codeUsed1) {
+  if (code === 'ImWinner_NECHTO' && !codeUsed) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
     saveCoins();
     codeMenu.style.display = 'none';
-  }
-  if (code === '1JFI493AOa' && !codeUsed2) {
+    showMessage('Код успешно активирован!', 'success-message');
+  } else if (code === '1JFI493AOa' && !codeUsed) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
     saveCoins();
     codeMenu.style.display = 'none';
-  }
-  if (code === 'WORK_CODES' && !codeUsed3) {
-    coinCount += 10000;
-    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
-    codeUsed = true;
-    saveCoins();
-    codeMenu.style.display = 'none';
-  }
-  if (code === 'Hammer147_secret_code') {
+    showMessage('Код успешно активирован!', 'success-message');
+  } else if (code === 'Hammer147_secret_code') {
     coinCount += 1000000000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     saveCoins();
     codeMenu.style.display = 'none';
-  }
-  else {
-    alert('Неверный промокод или он уже был использован!');
-    codeMenu.style.display = 'none';
+    showMessage('Код успешно активирован!', 'success-message');
+  } else {
+    showMessage('Неверный промокод или он уже был использован!', 'error-message');
   }
 });
+
+function showMessage(text, className) {
+  const messageContainer = document.getElementById('message-container');
+  messageContainer.textContent = text;
+  messageContainer.className = className;
+  messageContainer.style.opacity = '1';
+
+  setTimeout(() => {
+    messageContainer.style.opacity = '0';
+  }, 5000);
+}
 </script>
 </body>
 </html>
