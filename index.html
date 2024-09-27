@@ -171,6 +171,11 @@ let coinCount = 0;
 let clickValue = 1;
 let upgradePrice = 100;
 let codeUsed = false;
+let codeUsed1 = false;
+let codeUsed2 = false;
+let codeUsed3 = false;
+let codeUsed4 = false;
+let codeUsed5 = false;
 const coinDisplay = document.getElementById('coin');
 const coinImage = document.getElementById('coinImage');
 const themeButton = document.getElementById('themeButton');
@@ -238,14 +243,14 @@ codeMenu.addEventListener('click', (event) => {
 
 codeSubmit.addEventListener('click', () => {
   const code = codeInput.value.trim();
-  if (code === 'ImWinner_NECHTO' && !codeUsed) {
+  if (code === 'ImWinner_NECHTO' && !codeUsed1) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
     saveCoins();
     codeMenu.style.display = 'none';
     showMessage('Код успешно активирован!', 'success-message');
-  } else if (code === '1JFI493AOa' && !codeUsed) {
+  } else if (code === '1JFI493AOa' && !codeUsed2) {
     coinCount += 100000;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     codeUsed = true;
@@ -258,21 +263,21 @@ codeSubmit.addEventListener('click', () => {
     saveCoins();
     codeMenu.style.display = 'none';
     showMessage('Код успешно активирован!', 'success-message');
-  } else if (code === '50SUBS'  && !codeUsed) {
+  } else if (code === '50SUBS'  && !codeUsed3) {
     coinCount += 50000;
     codeUsed = true;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     saveCoins();
     codeMenu.style.display = 'none';
     showMessage('Код успешно активирован!', 'success-message');
-  } else if (code === '10LIKES'  && !codeUsed) {
+  } else if (code === '10LIKES'  && !codeUsed4) {
     coinCount += 50000;
     codeUsed = true;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
     saveCoins();
     codeMenu.style.display = 'none';
     showMessage('Код успешно активирован!', 'success-message');
-  } else if (code === 'COMINGSOON'  && !codeUsed) {
+  } else if (code === 'COMINGSOON'  && !codeUsed5) {
     coinCount += 50000;
     codeUsed = true;
     coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
