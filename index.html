@@ -265,6 +265,20 @@ codeSubmit.addEventListener('click', () => {
     saveCoins();
     codeMenu.style.display = 'none';
     showMessage('Код успешно активирован!', 'success-message');
+  } else if (code === '10LIKES'  && !codeUsed) {
+    coinCount += 50000;
+    codeUsed = true;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    saveCoins();
+    codeMenu.style.display = 'none';
+    showMessage('Код успешно активирован!', 'success-message');
+  } else if (code === 'COMINGSOON'  && !codeUsed) {
+    coinCount += 50000;
+    codeUsed = true;
+    coinDisplay.textContent = `Монеток: ${coinCount.toFixed(1)}`;
+    saveCoins();
+    codeMenu.style.display = 'none';
+    showMessage('Код успешно активирован!', 'success-message');
   } else {
     showMessage('Неверный промокод или он уже был использован!', 'error-message');
   }
